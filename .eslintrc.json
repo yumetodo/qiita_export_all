@@ -1,0 +1,24 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended"
+    ],
+    "plugins": ["node"],
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module"
+    },
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "globals": {
+        "fetch": false
+    },
+    "rules": {
+        "node/shebang": "error",
+        "node/no-unsupported-features": ["error", {"version": 8}],
+        "no-console": "off",
+        "quotes": ["error", "double"]
+    }
+}

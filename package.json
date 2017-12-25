@@ -1,0 +1,29 @@
+{
+  "name": "qiita_export_all",
+  "version": "0.0.1",
+  "description": "export all of your article at qiita",
+  "bin": {
+    "qiita_export_all": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/index.js",
+    "eslint": "eslint . --cache",
+    "eslint:fix": "eslint --fix . --cache"
+  },
+  "keywords": [
+    "qiita"
+  ],
+  "author": "yumetodo",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.14.0",
+    "eslint-plugin-node": "^5.2.1"
+  },
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "parse-link-header": "^1.0.1",
+    "sanitize-filename": "^1.6.1"
+  }
+}
