@@ -55,9 +55,17 @@ class Item extends ItemBase {
      */
     async WriteFiles(rootItemPath, relativeCommentPath){
         const itemPath = path.normalize(sanitize(`${rootItemPath}/${this.title}`));
+        const info = Object.freeze({
+            "created_at": this.created_at,
+            "id": this.id,
+            "updated_at": this.updated_at,
+            "title": this.title,
+            "tags": this.tags
+        });
         const promise = [
             fse.writeFile(path.normalize(`${itemPath}/index.html`), this.html),
-            fse.writeFile(path.normalize(`${itemPath}/README.md`), this.markdown)
+            fse.writeFile(path.normalize(`${itemPath}/README.md`), this.markdown),
+            fse.writeFile(path.normalize(`${itemPath}/info.json`), JSON.stringify(info))
         ];
         for(const comment of this.comments) promise.push(
             comment.WriteFiles(path.normalize(`${itemPath}/${relativeCommentPath}`))
