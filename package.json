@@ -2,6 +2,9 @@
   "name": "qiita_export_all",
   "version": "0.0.1",
   "description": "export all of your article at qiita",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "bin": {
     "qiita_export_all": "bin/index.js"
   },
