@@ -22,13 +22,12 @@ const main = async () => {
     const items = await qiita.GetAllAuthenticatedUserItems().then(rawItems => rawItems.map(i => new Item(i)));
     console.log(`info: ${items.length} items found.`);
 
-    console.log("info: Requesting comments...");
-    for(const i of items) await i.FetchComments(qiita);
-    console.log("info: Request finidhed.");
-
     const imageManager = new ImageManager(imageDirectoryPath);
-    console.log("info: Requesting images...");
-    for(const i of items) i.RegisterImagesToImageManager(imageManager);
+    console.log("info: Requesting comments/images...");
+    for(const i of items) {
+        await i.FetchComments(qiita);
+        i.RegisterImagesToImageManager(imageManager);
+    }
     await imageManager.WaitImageCachePromise();
     console.log("info: Request finidhed.");
 
