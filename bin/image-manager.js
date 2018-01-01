@@ -45,7 +45,7 @@ class ImageManager {
             //isomorphic-fetch doesn't support Blob (ref: https://github.com/matthew-andrews/isomorphic-fetch/issues/81).
             // await fse.writeFile(imagePath, await response.blob());
             //Response.buffer() is Node.js extension
-            await fse.writeFile(imagePath, await response.buffer());
+            await fse.writeFile(`${imagePath}.tmp`, await response.buffer());
             this.imagePathMap_[imageUrl] = imagePath;
         }));
     }
