@@ -26,6 +26,7 @@
   "dependencies": {
     "fs-extra": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "mkdirp-promise": "^5.0.1",
     "parse-link-header": "^1.0.1",
     "sanitize-filename": "^1.6.1"
   }

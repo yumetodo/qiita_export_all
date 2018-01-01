@@ -9,6 +9,7 @@ const ImageManager = require("./image-manager.js");
 const fse = require("fs-extra");
 const path = require("path");
 const sanitize = require("sanitize-filename");
+const mkdirp = require("mkdirp-promise");
 
 class Item extends ItemBase {
     constructor(obj) {
@@ -55,6 +56,7 @@ class Item extends ItemBase {
      */
     async WriteFiles(rootItemPath, relativeCommentPath){
         const itemPath = path.normalize(sanitize(`${rootItemPath}/${this.title}`));
+        await mkdirp(itemPath);
         const info = Object.freeze({
             "created_at": this.created_at,
             "id": this.id,

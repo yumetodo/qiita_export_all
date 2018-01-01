@@ -2,6 +2,8 @@
 
 "use strict";
 
+const mkdirp = require("mkdirp-promise");
+
 const QiitaApi = require("./qiita");
 const Item = require("./item.js");
 //eslint-disable-next-line no-unused-vars
@@ -22,6 +24,9 @@ const main = async () => {
     const items = await qiita.GetAllAuthenticatedUserItems().then(rawItems => rawItems.map(i => new Item(i)));
     console.log(`info: ${items.length} items found.`);
 
+    console.log("info: creating image save directory...");
+    await mkdirp(imageDirectoryPath);
+    console.log("info: created.");
     const imageManager = new ImageManager(imageDirectoryPath);
     console.log("info: Requesting comments/images...");
     for(const i of items) {
