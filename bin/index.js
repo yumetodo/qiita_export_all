@@ -10,8 +10,7 @@ const Item = require("./item.js");
 const Comment = require("./comment.js");
 const ImageManager = require("./image-manager.js");
 
-// const token = process.env.QIITA_ACCESS_TOKEN;
-const token = "9226168a5ef65f8e81153b460e7c78f8b8e53399";
+const token = process.env.QIITA_ACCESS_TOKEN;
 const imageDirectoryPath = "img";
 const rootItemPath = "items";
 const relativeCommentPath = "comments";
