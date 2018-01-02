@@ -55,7 +55,7 @@ class Item extends ItemBase {
      * @param {string} relativeCommentPath relative path from item path(not root path of item) to comment root path
      */
     async WriteFiles(rootItemPath, relativeCommentPath){
-        const itemPath = path.normalize(sanitize(`${rootItemPath}/${this.title}`));
+        const itemPath = path.join(rootItemPath, sanitize(this.title));
         await mkdirp(itemPath);
         const info = Object.freeze({
             "created_at": this.created_at,
@@ -65,12 +65,12 @@ class Item extends ItemBase {
             "tags": this.tags
         });
         const promise = [
-            fse.writeFile(path.normalize(`${itemPath}/index.html`), this.html),
-            fse.writeFile(path.normalize(`${itemPath}/README.md`), this.markdown),
-            fse.writeFile(path.normalize(`${itemPath}/info.json`), JSON.stringify(info))
+            fse.writeFile(path.join(itemPath, "index.html"), this.html),
+            fse.writeFile(path.join(itemPath, "README.md"), this.markdown),
+            fse.writeFile(path.join(itemPath, "info.json"), JSON.stringify(info))
         ];
         for(const comment of this.comments) promise.push(
-            comment.WriteFiles(path.normalize(`${itemPath}/${relativeCommentPath}`))
+            comment.WriteFiles(path.join(itemPath, relativeCommentPath))
         );
         await Promise.all(promise);
     }
