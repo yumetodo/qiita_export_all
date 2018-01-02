@@ -17,6 +17,7 @@ class ImageManager {
         this.registerdImageURLs_ = new Set();
         this.imageListMap = {};
         this.imageDirectoryPath = imageDirectoryPathFromRootDirectry;
+        this.imageNumber = 0;
     }
     /**
      * wait all registered image download
@@ -29,9 +30,9 @@ class ImageManager {
      * @param {string} imageUrl image url to download and cache
      */
     ConvertImgUrlToImgPath_(imageUrl) {
-        return path.normalize(
-            imageUrl.replace(new RegExp("https://camo.qiitausercontent.com"), this.imageDirectoryPath)
-        );
+        const re = this.imageNumber;
+        this.imageNumber += 1;
+        return path.normalize(`${this.imageDirectoryPath}/${re}_${imageUrl.charAt(imageUrl.length - 1)}`);
     }
     /**
      * notify to cache image
