@@ -32,7 +32,7 @@ class ImageManager {
     ConvertImgUrlToImgPath_(imageUrl) {
         const re = this.imageNumber;
         this.imageNumber += 1;
-        return path.normalize(`${this.imageDirectoryPath}/${re}_${imageUrl.charAt(imageUrl.length - 1)}`);
+        return path.normalize(`${this.imageDirectoryPath}/${re}_${imageUrl.charAt(imageUrl.length - 1)}.tmp`);
     }
     /**
      * notify to cache image
@@ -46,7 +46,7 @@ class ImageManager {
             //isomorphic-fetch doesn't support Blob (ref: https://github.com/matthew-andrews/isomorphic-fetch/issues/81).
             // await fse.writeFile(imagePath, await response.blob());
             //Response.buffer() is Node.js extension
-            await fse.writeFile(`${imagePath}.tmp`, await response.buffer());
+            await fse.writeFile(imagePath, await response.buffer());
             this.imagePathMap_[imageUrl] = imagePath;
         }));
     }
