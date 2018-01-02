@@ -1,6 +1,6 @@
 {
   "name": "qiita_export_all",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "export all of your article at qiita",
   "engines": {
     "node": ">=8.0.0"
