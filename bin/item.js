@@ -28,7 +28,10 @@ class Item extends ItemBase {
      * @param {QiitaApi} qiitaApi api wrapper class
      */
     async FetchComments(qiitaApi) {
-        if(0 < this.comments_count_) this.comments = await qiitaApi.GetAllComments(this.id).then(c => new Comment(c));
+        if(0 < this.comments_count_) {
+            const comments = await qiitaApi.GetAllComments(this.id);
+            this.comments = comments.map(c => new Comment(c));
+        }
     }
     /**
      * Extract and register image to image manager
