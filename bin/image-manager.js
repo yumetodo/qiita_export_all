@@ -57,11 +57,16 @@ class ImageManager {
      * @param {string} htmlStr HTML string
      */
     RegisterImagesFromHtml_(itemId, identifier, htmlStr) {
-        const imageUrls = htmlStr.match(/img[^>]* src="[^"]+"/g).map(m => m.match(/img[^>]* src="([^"]+)"/)[1]);
+        const imageUrlMaatches = htmlStr.match(/img[^>]* src="[^"]+"/g);
+        if(null == imageUrlMaatches) return;
+        const imageUrls = imageUrlMaatches.map(m => m.match(/img[^>]* src="([^"]+)"/)[1]);
         if(0 === imageUrls.length) return;
+        //create empty object to avoid to read undefined propaty
+        if(null == this.imageListMap[itemId]) this.imageListMap[itemId] = {};
         /**@type {Set<string>} */
         const imageList = this.imageListMap[itemId][identifier] || new Set();
         for(const imageUrl of imageUrls) {
+            if(null == imageUrl) continue;
             this.NotifyCacheImage_(imageUrl);
             imageList.add(imageUrl);
         }
@@ -93,8 +98,10 @@ class ImageManager {
      * @param {string} str target string
      */
     ResolveImagePath_(relativeFilePath, itemId, identifier, str) {
+        if(null == this.imageListMap[itemId]) return str;
         /**@type {Set<string>} */
         const imageList = this.imageListMap[itemId][identifier];
+        if(null == imageList || 0 === imageList.size) return str;
         let tmpArr = [];
         // TODO: rewrite to make simple
         for(const v of imageList.values()) tmpArr.push(v);
