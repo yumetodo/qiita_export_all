@@ -156,8 +156,8 @@ write finished.
 ```plain
 .
 ├── img
-│   ├── 0_7.tmp
-│   ├── 1_7.tmp
+│   ├── 0_7.png
+│   ├── 1_7.png
 ┊   ┊
 ├── items
 │   ├── [ネタ]私のTLのみんながpure HTMLが何かを理解してくれない件
