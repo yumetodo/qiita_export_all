@@ -19,6 +19,10 @@
   ],
   "author": "yumetodo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yumetodo/qiita_export_all.git"
+  },
   "devDependencies": {
     "eslint": "^4.14.0",
     "eslint-plugin-node": "^5.2.1"
