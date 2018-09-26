@@ -3,6 +3,7 @@
 require("isomorphic-fetch");
 const fse = require("fs-extra");
 const path = require("path");
+const mime = require("mime/lite");
 
 const identifierForItem = "item";
 
@@ -28,11 +29,12 @@ class ImageManager {
     /**
      * convert image url to saved relative image path from current directory
      * @param {string} imageUrl image url to download and cache
+     * @param {string} ext file extension
      */
-    ConvertImgUrlToImgPath_(imageUrl) {
+    ConvertImgUrlToImgPath_(imageUrl, ext) {
         const re = this.imageNumber;
         this.imageNumber += 1;
-        return path.normalize(`${this.imageDirectoryPath}/${re}_${imageUrl.charAt(imageUrl.length - 1)}.tmp`);
+        return path.normalize(`${this.imageDirectoryPath}/${re}_${imageUrl.charAt(imageUrl.length - 1)}.${ext}`);
     }
     /**
      * notify to cache image
@@ -41,11 +43,13 @@ class ImageManager {
     NotifyCacheImage_(imageUrl) {
         if(this.registerdImageURLs_.has(imageUrl)) return;
         this.registerdImageURLs_.add(imageUrl);
-        const imagePath = this.ConvertImgUrlToImgPath_(imageUrl);
         this.imageCachePromise_.push(fetch(imageUrl).then(async response => {
             //isomorphic-fetch doesn't support Blob (ref: https://github.com/matthew-andrews/isomorphic-fetch/issues/81).
             // await fse.writeFile(imagePath, await response.blob());
             //Response.buffer() is Node.js extension
+            const imagePath = this.ConvertImgUrlToImgPath_(
+                imageUrl, mime.getExtension(response.headers.get("Content-Type")) || "tmp"
+            );
             await fse.writeFile(imagePath, await response.buffer());
             this.imagePathMap_[imageUrl] = imagePath;
         }));
