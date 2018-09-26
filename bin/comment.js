@@ -11,6 +11,8 @@ const mkdirp = require("mkdirp-promise");
 class Comment extends ItemBase {
     constructor(obj) {
         super(obj);
+        /**@type {string} user id*/
+        this.user = obj.user.id;
     }
     /**
      * Extract and register image to image manager
@@ -40,7 +42,8 @@ class Comment extends ItemBase {
         const info = Object.freeze({
             "created_at": this.created_at,
             "id": this.id,
-            "updated_at": this.updated_at
+            "updated_at": this.updated_at,
+            "user": this.user
         });
         await Promise.all([
             fse.writeFile(path.join(commentPath, "index.html"), this.html),
