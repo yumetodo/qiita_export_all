@@ -4,6 +4,7 @@ require("isomorphic-fetch");
 const fse = require("fs-extra");
 const path = require("path");
 const mime = require("mime/lite");
+const isURI = require("validate.io-uri");
 
 const identifierForItem = "item";
 
@@ -52,6 +53,8 @@ class ImageManager {
             );
             await fse.writeFile(imagePath, await response.buffer());
             this.imagePathMap_[imageUrl] = imagePath;
+        }).catch(er => {
+            throw new Error(`When fetch ${imageUrl}, ${er}`);
         }));
     }
         /**
@@ -70,7 +73,7 @@ class ImageManager {
         /**@type {Set<string>} */
         const imageList = this.imageListMap[itemId][identifier] || new Set();
         for(const imageUrl of imageUrls) {
-            if(null == imageUrl) continue;
+            if(null == imageUrl || !isURI(imageUrl)) continue;
             this.NotifyCacheImage_(imageUrl);
             imageList.add(imageUrl);
         }
