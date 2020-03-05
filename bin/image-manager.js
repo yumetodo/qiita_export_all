@@ -8,6 +8,7 @@ const pipeline = util.promisify(stream.pipeline);
 const path = require("path");
 const mime = require("mime/lite");
 const isURI = require("validate.io-uri");
+const decode = require("unescape");
 
 const identifierForItem = "item";
 
@@ -71,7 +72,7 @@ class ImageManager {
           retry: true,
           responseType: "stream",
         });
-        contentType = re.headers["Content-Type"];
+        contentType = re.headers["content-type"];
         input = re.data;
       } catch (er) {
         console.error(`When fetch ${imageUrl} (${from}), ${er}`);
@@ -94,7 +95,7 @@ class ImageManager {
   RegisterImagesFromHtml_(itemId, identifier, htmlStr) {
     const imageUrlMaatches = htmlStr.match(/img[^>]* src="[^"]+"/g);
     if (imageUrlMaatches == null) return;
-    const imageUrls = imageUrlMaatches.map(m => m.match(/img[^>]* src="([^"]+)"/)[1]);
+    const imageUrls = imageUrlMaatches.map(m => m.match(/img[^>]* src="([^"]+)"/)[1]).map(u => decode(u));
     if (imageUrls.length === 0) return;
     // create empty object to avoid to read undefined propaty
     if (this.imageListMap[itemId] == null) this.imageListMap[itemId] = {};

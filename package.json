@@ -41,6 +41,7 @@
     "mkdirp-promise": "^5.0.1",
     "parse-link-header": "^1.0.1",
     "sanitize-filename": "^1.6.3",
+    "unescape": "^1.0.1",
     "validate.io-uri": "^1.0.0"
   }
 }
