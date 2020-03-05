@@ -19,7 +19,7 @@ Qiita v2 API を使って自身の投稿記事全てをエクスポートする�
 
 ## Requirement
 
-- Node.js 8.x以降
+- Node.js 10.x以降
 - npm
 
 ## Installation
@@ -31,28 +31,19 @@ Qiita v2 API を使って自身の投稿記事全てをエクスポートする�
 #### nvm
 
 ```plain
-nvm install 8.x
-nvm use 8.x
+nvm install 12.x
+nvm use 12.x
 ```
 
 #### nodist
 
 ```plain
-nodist + 8.x
-nodist 8.x
+nodist + 12.x
+nodist 12.x
 nodist npm match
 ```
 
-## Download
-
-gitなりzipでDLしてあげればよいです。
-
-```plain
-git clone https://github.com/yumetodo/qiita_export_all.git
-cd qiita_export_all
-```
-
-## Qiita API Access Token
+### Qiita API Access Token
 
 Qiita API Access Tokenを手に入れます。
 
@@ -61,96 +52,31 @@ Qiita API Access Tokenを手に入れます。
 
 説明のため、得たtokenが`9226168a5ef65f8e81153b460e7c78f8b8e53394`とします。各自読み替えてください。
 
-### Windows
+#### cmd.exe
 
 ```cmd
 set QIITA_ACCESS_TOKEN=9226168a5ef65f8e81153b460e7c78f8b8e53394
 ```
 
-### Unix like system
+#### sh
 
 ```bash
 export QIITA_ACCESS_TOKEN=9226168a5ef65f8e81153b460e7c78f8b8e53394
 ```
 
-## Use
+### Use
 
 ```plain
-npm start
+npx qiita_export_all
 ```
 
-でとりあえずの実行はできます。
+## Note
 
-`qiita_export_all`をコマンドとしてインストールするには
-
-```plain
-npm link
-```
-
-とすると
-
-```plain
-qiita_export_all
-```
-
-のように実行できます。
-
-## Sample
-
-```plain
-npm start
-info: Requesting items...
-request limit remain: 810/1000
-info: 72 items found.
-info: creating image save directory...
-info: created.
-info: Requesting comments/images...
-request limit remain: 809/1000
-request limit remain: 808/1000
-request limit remain: 807/1000
-request limit remain: 806/1000
-request limit remain: 805/1000
-request limit remain: 804/1000
-request limit remain: 803/1000
-request limit remain: 802/1000
-request limit remain: 801/1000
-request limit remain: 800/1000
-request limit remain: 799/1000
-request limit remain: 798/1000
-request limit remain: 797/1000
-request limit remain: 796/1000
-request limit remain: 795/1000
-request limit remain: 794/1000
-request limit remain: 793/1000
-request limit remain: 792/1000
-request limit remain: 791/1000
-request limit remain: 790/1000
-request limit remain: 789/1000
-request limit remain: 788/1000
-request limit remain: 787/1000
-request limit remain: 786/1000
-request limit remain: 785/1000
-request limit remain: 784/1000
-request limit remain: 783/1000
-request limit remain: 782/1000
-request limit remain: 781/1000
-request limit remain: 780/1000
-request limit remain: 779/1000
-request limit remain: 778/1000
-request limit remain: 777/1000
-request limit remain: 776/1000
-request limit remain: 775/1000
-request limit remain: 774/1000
-request limit remain: 773/1000
-request limit remain: 772/1000
-request limit remain: 771/1000
-request limit remain: 770/1000
-info: Request finidhed.
-info: Replacing Image path...
-info: Replace finished.
-info: Writing items/comments...
-write finished.
-```
+- md ファイルは UTF-8 でエクスポートします
+- 投稿数が100を超えていても**取得できます**
+- Windowsでは`MAX_PATH`を超えるとエラーになる気がします
+- カレントディレクトリにRead/Writeの権限がないとエラーになります
+- directory名の一部にQiita記事のタイトルを使用しますが、パスとして無効な文字は削除されます。これは[sanitize-filename](https://www.npmjs.com/package/sanitize-filename)に丸投げしています。
 
 ## Output
 
@@ -193,13 +119,107 @@ write finished.
 
 のようなものです。
 
-## Notification
+## Development
 
-- md ファイルは UTF-8 でエクスポートします
-- 投稿数が100を超えていても**取得できます**
-- Windowsでは`MAX_PATH`を超えるとエラーになる気がします
-- カレントディレクトリにRead/Writeの権限がないとエラーになります
-- directory名の一部にQiita記事のタイトルを使用しますが、パスとして無効な文字は削除されます。これは[sanitize-filename](https://www.npmjs.com/package/sanitize-filename)に丸投げしています。
+### Download
+
+gitなりzipでDLしてあげればよいです。
+
+```plain
+git clone https://github.com/yumetodo/qiita_export_all.git
+cd qiita_export_all
+```
+
+### Use
+
+```plain
+npm start
+```
+
+でとりあえずの実行はできます。
+
+### Example
+
+```bash
+$ npm start
+
+> qiita_export_all@1.2.0 start /home/yumetodo/qiita_export_all
+> node bin/index.js
+
+info: Requesting items...
+request limit remain: 995/1000
+request limit remain: 994/1000
+info: 110 items found.
+info: creating image save directory...
+info: created.
+info: Requesting comments/images...
+request limit remain: 993/1000
+request limit remain: 992/1000
+request limit remain: 991/1000
+request limit remain: 990/1000
+request limit remain: 989/1000
+request limit remain: 988/1000
+request limit remain: 987/1000
+When fetch https://scan.coverity.com/projects/1316/badge.svg (5886b2c0c421c24c909b/item), FetchError: request to https://scan.coverity.com/projects/1316/badge.svg failed, reason: Parse Error: Invalid header value char
+request limit remain: 986/1000
+request limit remain: 985/1000
+request limit remain: 984/1000
+request limit remain: 983/1000
+request limit remain: 982/1000
+request limit remain: 981/1000
+request limit remain: 980/1000
+request limit remain: 979/1000
+request limit remain: 978/1000
+request limit remain: 977/1000
+request limit remain: 976/1000
+request limit remain: 975/1000
+request limit remain: 974/1000
+request limit remain: 973/1000
+request limit remain: 972/1000
+request limit remain: 971/1000
+request limit remain: 970/1000
+request limit remain: 969/1000
+request limit remain: 968/1000
+request limit remain: 967/1000
+request limit remain: 966/1000
+request limit remain: 965/1000
+When fetch https://pbs.twimg.com/media/C3kcEbkUcAAsbkn.jpg (34adcaeddaab8b58ab47/item), Error: Request failed with status code 404
+request limit remain: 964/1000
+request limit remain: 963/1000
+request limit remain: 962/1000
+request limit remain: 961/1000
+request limit remain: 960/1000
+request limit remain: 959/1000
+request limit remain: 958/1000
+request limit remain: 957/1000
+request limit remain: 956/1000
+request limit remain: 955/1000
+request limit remain: 954/1000
+request limit remain: 953/1000
+request limit remain: 952/1000
+request limit remain: 951/1000
+request limit remain: 950/1000
+request limit remain: 949/1000
+request limit remain: 948/1000
+request limit remain: 947/1000
+request limit remain: 946/1000
+request limit remain: 945/1000
+request limit remain: 944/1000
+request limit remain: 943/1000
+request limit remain: 942/1000
+request limit remain: 941/1000
+request limit remain: 940/1000
+request limit remain: 939/1000
+request limit remain: 938/1000
+request limit remain: 937/1000
+request limit remain: 936/1000
+request limit remain: 935/1000
+info: Request finidhed.
+info: Replacing Image path...
+info: Replace finished.
+info: Writing items/comments...
+write finished.
+```
 
 ## License
 
