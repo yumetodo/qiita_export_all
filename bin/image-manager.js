@@ -40,8 +40,9 @@ class ImageManager {
     /**
      * notify to cache image
      * @param {string} imageUrl image url to download and cache
+     * @param {string} from used for error handling display info
      */
-    NotifyCacheImage_(imageUrl) {
+    NotifyCacheImage_(imageUrl, from) {
         if(this.registerdImageURLs_.has(imageUrl)) return;
         this.registerdImageURLs_.add(imageUrl);
         this.imageCachePromise_.push(fetch(imageUrl).then(async response => {
@@ -54,7 +55,9 @@ class ImageManager {
             await fse.writeFile(imagePath, await response.buffer());
             this.imagePathMap_[imageUrl] = imagePath;
         }).catch(er => {
-            throw new Error(`When fetch ${imageUrl}, ${er}`);
+            //When fail to fetch, give up to replace img url
+            console.error(`When fetch ${imageUrl} (${from}), ${er}`);
+            this.imagePathMap_[imageUrl] = imageUrl;
         }));
     }
         /**
@@ -74,7 +77,7 @@ class ImageManager {
         const imageList = this.imageListMap[itemId][identifier] || new Set();
         for(const imageUrl of imageUrls) {
             if(null == imageUrl || !isURI(imageUrl)) continue;
-            this.NotifyCacheImage_(imageUrl);
+            this.NotifyCacheImage_(imageUrl, `${itemId}/${identifier}`);
             imageList.add(imageUrl);
         }
         if(0 !== imageList.size) this.imageListMap[itemId][identifier] = imageList;
@@ -114,6 +117,7 @@ class ImageManager {
         for(const v of imageList.values()) tmpArr.push(v);
         const rx = new RegExp(`(${tmpArr.join("|")})`, "g");
         return str.replace(rx, (_, url) => {
+            if (url === this.imagePathMap_[url]) return url;
             try{
                 return path.normalize(relativeFilePath + this.imagePathMap_[url]);
             }
