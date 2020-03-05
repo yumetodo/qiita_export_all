@@ -49,7 +49,7 @@ class QiitaApi {
       }
       if (this.debugFlag_) console.log(`request limit remain: ${requestRemain}/${re.headers["rate-limit"]}`);
       // append
-      items.push(Array.from(re.data));
+      items.push(...Array.from(re.data));
       const link = parseRFC5988LinkHeader(re.headers.link);
       // when cannot find next page
       if (link.next == null || link.next.url == null) break;
