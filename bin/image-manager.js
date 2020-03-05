@@ -1,7 +1,10 @@
 "use strict";
 
-require("isomorphic-fetch");
-const fse = require("fs-extra");
+const request = require("gaxios").request;
+const fs = require("fs");
+const util = require("util");
+const stream = require("stream");
+const pipeline = util.promisify(stream.pipeline);
 const path = require("path");
 const mime = require("mime/lite");
 const isURI = require("validate.io-uri");
@@ -15,6 +18,7 @@ class ImageManager {
      */
     constructor(imageDirectoryPathFromRootDirectry) {
         this.imagePathMap_ = {};
+        /** @type {Promise<void>[]} */
         this.imageCachePromise_ = [];
         this.registerdImageURLs_ = new Set();
         this.imageListMap = {};
@@ -45,20 +49,37 @@ class ImageManager {
     NotifyCacheImage_(imageUrl, from) {
         if(this.registerdImageURLs_.has(imageUrl)) return;
         this.registerdImageURLs_.add(imageUrl);
-        this.imageCachePromise_.push(fetch(imageUrl).then(async response => {
-            //isomorphic-fetch doesn't support Blob (ref: https://github.com/matthew-andrews/isomorphic-fetch/issues/81).
-            // await fse.writeFile(imagePath, await response.blob());
-            //Response.buffer() is Node.js extension
-            const imagePath = this.ConvertImgUrlToImgPath_(
-                imageUrl, mime.getExtension(response.headers.get("Content-Type")) || "tmp"
-            );
-            await fse.writeFile(imagePath, await response.buffer());
+        /**
+         * @param {string} url
+         * @returns {Promise<void>}
+         */
+        const impl = async url => {
+            /** @type {ReadableStream<Uint8Array> | NodeJS.ReadableStream} */
+            let input;
+            /** @type {string} */
+            let contentType;
+            try {
+                const re = await request({
+                    url: url,
+                    retryConfig: {
+                        retry: 4,
+                        retryDelay: 1000
+                    },
+                    retry: true,
+                    responseType: "stream"
+                });
+                contentType = re.headers["Content-Type"];
+                input = re.data;
+            } catch (er) {
+                console.error(`When fetch ${imageUrl} (${from}), ${er}`);
+                this.imagePathMap_[imageUrl] = imageUrl;
+                return;
+            }
+            const imagePath = this.ConvertImgUrlToImgPath_(imageUrl, mime.getExtension(contentType) || "tmp");
+            await pipeline(input, fs.createWriteStream(imagePath));
             this.imagePathMap_[imageUrl] = imagePath;
-        }).catch(er => {
-            //When fail to fetch, give up to replace img url
-            console.error(`When fetch ${imageUrl} (${from}), ${er}`);
-            this.imagePathMap_[imageUrl] = imageUrl;
-        }));
+        }
+        this.imageCachePromise_.push(impl(imageUrl));
     }
         /**
      * Extract Images from HTML string and register to cache

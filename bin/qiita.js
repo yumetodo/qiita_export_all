@@ -1,6 +1,6 @@
 "use strict";
 
-require("isomorphic-fetch");
+const request = require("gaxios").request;
 const URLSearchParams = require("url").URLSearchParams;
 const parseRFC5988LinkHeader = require("parse-link-header");
 
@@ -19,39 +19,41 @@ class QiitaApi {
         Object.freeze(this.debugFlag_);
     }
     /**
-     * Create HTTP Header include token
-     */
-    CreateHttpHeader_() {
-        return {
-            "content-type"  : "application/json",
-            "charset"       : "utf-8",
-            "Authorization" : `Bearer ${this.token_}`
-        };
-    }
-    /**
      * @param {string} url GET Request URL includes GET params
      * @returns {Promise<any[]>}
      */
     async GetAllData_(url) {
-        let responseParsingPromise = [];
         let items = [];
         // eslint-disable-next-line no-constant-condition
         while(true){
-            const response = await fetch(url, { headers: this.CreateHttpHeader_() });
-            const requestRemain = response.headers.get("rate-remaining");
+            const re = await request({
+                url: url,
+                headers: {
+                    "content-type"  : "application/json",
+                    "charset"       : "utf-8",
+                    "Authorization" : `Bearer ${this.token_}`
+                },
+                retryConfig: {
+                    retry: 4,
+                    retryDelay: 1000
+                },
+                retry: true,
+                responseType: "json"
+            });
+            /** @type  {number} */
+            const requestRemain = re.headers["rate-remaining"];
             if(requestRemain <= 0) {
                 throw new Error("API request limit exceeded. Retry 1h later.");
             }
-            if(this.debugFlag_) console.log(`request limit remain: ${requestRemain}/${response.headers.get("rate-limit")}`);
+            if(this.debugFlag_) console.log(`request limit remain: ${requestRemain}/${re.headers["rate-limit"]}`);
             //append
-            responseParsingPromise.push(response.json().then(j => Array.from(j)));
-            const link = parseRFC5988LinkHeader(response.headers.get("link"));
+            items.push(Array.from(re.data));
+            const link = parseRFC5988LinkHeader(re.headers["link"]);
             // when cannot find next page
             if(null == link["next"] || null == link["next"]["url"]) break;
             // set next url
             url = link["next"]["url"];
         }
-        for(const r of await Promise.all(responseParsingPromise)) items = items.concat(r);
         return items;
     }
     /**
