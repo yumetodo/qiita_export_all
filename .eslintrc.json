@@ -1,11 +1,13 @@
 {
     "extends": [
-        "eslint:recommended",
-        "plugin:node/recommended"
+        "standard",
+        "plugin:prettier/recommended"
     ],
-    "plugins": ["node"],
+    "plugins": [
+        "node"
+    ],
     "parserOptions": {
-        "ecmaVersion": 2017,
+        "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "env": {
@@ -16,9 +18,46 @@
         "fetch": false
     },
     "rules": {
-        "node/shebang": "error",
-        "node/no-unsupported-features": ["error", {"version": 8}],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-tabs": "off",
+        "quotes": [
+            "error",
+            "double",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "no-await-in-loop": "error",
+        "require-atomic-updates": "error",
+        "array-callback-return": "error",
+        "default-case": "error",
+        "no-alert": "error",
+        "max-len": [
+            "error",
+            {
+                "code": 120
+            }
+        ],
+        "no-invalid-this": "error",
+        "prettier/prettier": [
+            "error",
+            {
+                "singleQuote": false,
+                "trailingComma": "es5",
+                "printWidth": 120,
+                "useTabs": false
+            }
+        ],
         "no-console": "off",
-        "quotes": ["error", "double"]
+        "node/shebang": "error",
+        "node/no-unsupported-features": [
+            "error",
+            {
+                "version": 8
+            }
+        ]
     }
 }
