@@ -30,13 +30,7 @@ test("item", async t => {
   const mock = nock("https://qiita.com");
   registerItemMockImpl(mock);
   const qiita = new QiitaApi("xxx");
-  const rawItems = await qiita.GetAllUserItems("yumetodo").catch(er => {
-    // GaxiosError: To avoid leaking access token
-    if ("config" in er && "headers" in er.config && "Authorization" in er.config.headers) {
-      er.config.headers.Authorization = "xxxxx";
-    }
-    throw er;
-  });
+  const rawItems = await qiita.GetAllUserItems("yumetodo");
   const ids = ["48d77f5d554df84f66f7", "bd41f31f39dd590e8c80"];
   const items = rawItems.map(i => new Item(i)).filter(i => ids.includes(i.id));
   t.true(items.length === ids.length);
