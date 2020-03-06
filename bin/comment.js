@@ -19,9 +19,10 @@ class Comment extends ItemBase {
    * Extract and register image to image manager
    * @param {ImageManager} imageManager image manager
    * @param {string} itemId item id
+   * @param {boolean} [isDryRun=false] When this flag is true, image get request will not be occured.
    */
-  RegisterImagesToImageManager(imageManager, itemId) {
-    imageManager.RegisterImagesFromCommentHtml(itemId, this.id, this.html);
+  RegisterImagesToImageManager(imageManager, itemId, isDryRun = false) {
+    imageManager.RegisterImagesFromCommentHtml(itemId, this.id, this.html, isDryRun);
   }
 
   /**

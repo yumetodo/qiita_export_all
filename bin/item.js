@@ -38,10 +38,11 @@ class Item extends ItemBase {
   /**
    * Extract and register image to image manager
    * @param {ImageManager} imageManager image manager
+   * @param {boolean} [isDryRun=false] When this flag is true, image get request will not be occured.
    */
-  RegisterImagesToImageManager(imageManager) {
-    imageManager.RegisterImagesFromItemHtml(this.id, this.html);
-    for (const comment of this.comments) comment.RegisterImagesToImageManager(imageManager, this.id);
+  RegisterImagesToImageManager(imageManager, isDryRun = false) {
+    imageManager.RegisterImagesFromItemHtml(this.id, this.html, isDryRun);
+    for (const comment of this.comments) comment.RegisterImagesToImageManager(imageManager, this.id, isDryRun);
   }
 
   /**

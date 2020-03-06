@@ -91,8 +91,9 @@ class ImageManager {
    * @param {string} itemId item id
    * @param {string} identifier identifier
    * @param {string} htmlStr HTML string
+   * @param {boolean} [isDryRun=false] When this flag is true, image get request will not be occured.
    */
-  RegisterImagesFromHtml_(itemId, identifier, htmlStr) {
+  RegisterImagesFromHtml_(itemId, identifier, htmlStr, isDryRun = false) {
     const imageUrlMaatches = htmlStr.match(/img[^>]* src="[^"]+"/g);
     if (imageUrlMaatches == null) return;
     const imageUrls = imageUrlMaatches.map(m => m.match(/img[^>]* src="([^"]+)"/)[1]).map(u => decode(u));
@@ -103,7 +104,7 @@ class ImageManager {
     const imageList = this.imageListMap[itemId][identifier] || new Set();
     for (const imageUrl of imageUrls) {
       if (imageUrl == null || !isURI(imageUrl)) continue;
-      this.NotifyCacheImage_(imageUrl, `${itemId}/${identifier}`);
+      if (!isDryRun) this.NotifyCacheImage_(imageUrl, `${itemId}/${identifier}`);
       imageList.add(imageUrl);
     }
     if (imageList.size !== 0) this.imageListMap[itemId][identifier] = imageList;
@@ -113,9 +114,10 @@ class ImageManager {
    * Extract Images from HTML string and register to cache
    * @param {string} itemId item id
    * @param {string} htmlStr HTML string
+   * @param {boolean} [isDryRun=false] When this flag is true, image get request will not be occured.
    */
-  RegisterImagesFromItemHtml(itemId, htmlStr) {
-    this.RegisterImagesFromHtml_(itemId, identifierForItem, htmlStr);
+  RegisterImagesFromItemHtml(itemId, htmlStr, isDryRun = false) {
+    this.RegisterImagesFromHtml_(itemId, identifierForItem, htmlStr, isDryRun);
   }
 
   /**
@@ -123,9 +125,10 @@ class ImageManager {
    * @param {string} itemId item id
    * @param {string} commentId comment id
    * @param {string} htmlStr HTML string
+   * @param {boolean} [isDryRun=false] When this flag is true, image get request will not be occured.
    */
-  RegisterImagesFromCommentHtml(itemId, commentId, htmlStr) {
-    this.RegisterImagesFromHtml_(itemId, commentId, htmlStr);
+  RegisterImagesFromCommentHtml(itemId, commentId, htmlStr, isDryRun = false) {
+    this.RegisterImagesFromHtml_(itemId, commentId, htmlStr, isDryRun);
   }
 
   /**
