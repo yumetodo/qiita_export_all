@@ -56,7 +56,6 @@ test("image register", async t => {
     /* eslint-enable max-len */
   ]);
   for (const actualRaw of imageList) {
-    // t.true(imageList.has(expected), `expected: ${expected}`);
     const actual = new URL(actualRaw);
     actual.search = "";
     t.true(expectedList.has(actual.href), `actual: ${actual.href}`);
