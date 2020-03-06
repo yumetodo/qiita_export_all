@@ -60,12 +60,29 @@ class QiitaApi {
   }
 
   /**
+   * Get all user items
+   * @param {string} target `/users/:user_id` or `authenticated_user`
+   */
+  async GetAllUserItemsImpl_(target) {
+    const getParams = new URLSearchParams({ page: 1, per_page: 100 }).toString();
+    return this.GetAllData_(`https://qiita.com/api/v2/${target}/items?${getParams}`);
+  }
+
+  /**
+   * Get all user items
+   * @param {string} userId qiita user id
+   * @returns {Promise<any[]>}
+   */
+  async GetAllUserItems(userId) {
+    return this.GetAllUserItemsImpl_(`users/${userId}`);
+  }
+
+  /**
    * Get all authenticated user items
    * @returns {Promise<any[]>}
    */
   async GetAllAuthenticatedUserItems() {
-    const getParams = new URLSearchParams({ page: 1, per_page: 100 }).toString();
-    return this.GetAllData_(`https://qiita.com/api/v2/authenticated_user/items?${getParams}`);
+    return this.GetAllUserItemsImpl_("authenticated_user");
   }
 
   /**
