@@ -6,7 +6,7 @@ const ImageManager = require("./image-manager.js");
 const fse = require("fs-extra");
 const path = require("path");
 const sanitize = require("sanitize-filename");
-const mkdirp = require("mkdirp-promise");
+const mkdirp = require("mkdirp");
 
 class Comment extends ItemBase {
   constructor(obj) {

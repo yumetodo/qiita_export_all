@@ -2,7 +2,7 @@
 
 "use strict";
 
-const mkdirp = require("mkdirp-promise");
+const mkdirp = require("mkdirp");
 
 const QiitaApi = require("./qiita");
 const Item = require("./item.js");
@@ -29,9 +29,7 @@ const main = async () => {
   console.log(`info: ${items.length} items found.`);
 
   console.log("info: creating image save directory...");
-  await mkdirp(imageDirectoryPath).catch(er => {
-    throw er;
-  });
+  await mkdirp(imageDirectoryPath);
   console.log("info: created.");
   const imageManager = new ImageManager(imageDirectoryPath);
   console.log("info: Requesting comments/images...");
