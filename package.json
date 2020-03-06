@@ -9,7 +9,7 @@
     "qiita_export_all": "bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava --verbose",
     "start": "node bin/index.js",
     "eslint": "eslint --cache --ext .js .",
     "eslint:fix": "eslint --cache --ext .js . --fix"
@@ -24,6 +24,7 @@
     "url": "https://github.com/yumetodo/qiita_export_all.git"
   },
   "devDependencies": {
+    "ava": "^3.5.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-standard": "^14.1.0",
@@ -32,6 +33,8 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "esm": "^3.2.25",
+    "nock": "^12.0.2",
     "prettier": "^1.19.1"
   },
   "dependencies": {
@@ -43,5 +46,10 @@
     "sanitize-filename": "^1.6.3",
     "unescape": "^1.0.1",
     "validate.io-uri": "^1.0.0"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   }
 }
