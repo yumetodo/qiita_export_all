@@ -1,0 +1,58 @@
+version: 2.1
+executors:
+    default:
+        docker:
+            - image: circleci/node:12
+        working_directory: ~/repo
+jobs:
+    test:
+        executor: default
+        steps:
+            - checkout
+            - restore_cache:
+                key: node_modules-2-{{ checksum "package.json" }}-{{ checksum "package-lock.json"}}
+            - run: npm ci
+            - save_cache:
+                paths:
+                    - $HOME/.npm
+                key: node_modules-2-{{ checksum "package.json" }}-{{ checksum "package-lock.json"}}
+            # ログディレクトリの作成
+            - run:
+                command: |
+                    mkdir -p results
+                    mkdir -p results/eslint
+            - run:
+                name: eslint
+                command: npm run eslint -- --format=html -o ./results/eslint/eslint.html
+            - run:
+                name: Run tests
+                command: npm test -- --tap | npx tap-xunit > results/ava.xml
+            - store_test_results:
+                path: results
+            - store_artifacts:
+                path: results
+    publish:
+        executor: default
+        steps:
+            - checkout
+            - run: npm ci
+            - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+            - run:
+                command: |
+                    if npx can-npm-publish --verbose; then
+                        npm publish
+                    else
+                        echo "publish skipped"
+                    fi
+workflows:
+    version: 2
+    publishflow:
+        jobs:
+            - test
+            - publish:
+                context: npm
+                requires:
+                    - test
+                filters:
+                    tags:
+                        only: /^v.*/
