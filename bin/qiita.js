@@ -28,7 +28,19 @@ class QiitaApi {
    * @returns {Promise<any[]>}
    */
   async GetAllData_(url) {
+    /**
+     * @param {Date} t
+     */
+    const formatDate = t => `${t.getUTCHours()}:${t.getUTCMinutes()}:${t.getUTCSeconds()}`;
+    /**
+     * @param {number} ms
+     */
+    const waitFor = ms =>
+      new Promise(resolve => {
+        setTimeout(resolve, ms);
+      });
     const items = [];
+    let waitRequestLimitResetCount = 0;
     // eslint-disable-next-line no-constant-condition
     while (true) {
       // eslint-disable-next-line no-await-in-loop
@@ -49,8 +61,18 @@ class QiitaApi {
       this.requestRemain = re.headers["rate-remaining"];
       this.requestLimit = re.headers["rate-limit"];
       if (this.requestRemain <= 0) {
-        throw new Error("API request limit exceeded. Retry 1h later.");
+        if (waitRequestLimitResetCount > 2) {
+          throw new Error("API request limit exceeded. Retry 1h later.");
+        }
+        ++waitRequestLimitResetCount;
+        const requestResetTime = re.headers["rate-reset"] * 1000;
+        const requestResetTimeUTC = new Date(requestResetTime);
+        console.log(`\ninfo: waiting API limit reset. Will be retried at ${formatDate(requestResetTimeUTC)} (UTC)`);
+        // eslint-disable-next-line no-await-in-loop
+        await waitFor(Date.UTC() - requestResetTime + 2000);
+        continue;
       }
+      waitRequestLimitResetCount = 0;
       if (this.debugFlag_) {
         process.stdout.write(`debug: request limit remain: ${this.requestRemain}/${this.requestLimit}\x1B[0G`);
       }
