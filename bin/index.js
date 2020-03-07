@@ -29,13 +29,13 @@ const main = async (userId, output) => {
   const qiita = new QiitaApi(token, true);
   const rawItems = await (userId == null ? qiita.GetAllAuthenticatedUserItems() : qiita.GetAllUserItems(userId));
   const items = rawItems.map(i => new Item(i));
-  console.log(`info: ${items.length} items found.`);
+  console.log(`\ninfo: ${items.length} items found.`);
 
-  console.log("info: creating image save directory...");
+  console.log("\ninfo: creating image save directory...");
   await mkdirp(imagePath);
   console.log("info: created.");
   const imageManager = new ImageManager(imagePath);
-  console.log("info: Requesting comments/images...");
+  console.log("\ninfo: Requesting comments/images...");
   for (const i of items) {
     // eslint-disable-next-line no-await-in-loop
     await i.FetchComments(qiita).catch(er => {
@@ -46,9 +46,9 @@ const main = async (userId, output) => {
   await imageManager.WaitImageCachePromise().catch(er => {
     throw er;
   });
-  console.log("info: Request finidhed.");
+  console.log("\ninfo: Request finidhed.");
 
-  console.log("info: Replacing Image path...");
+  console.log("\ninfo: Replacing Image path...");
   for (const i of items)
     i.ResolveImagePath(
       imageManager,
@@ -57,7 +57,7 @@ const main = async (userId, output) => {
     );
   console.log("info: Replace finished.");
 
-  console.log("info: Writing items/comments...");
+  console.log("\ninfo: Writing items/comments...");
   await Promise.all(items.map(i => i.WriteFiles(itemPath, relativeCommentPath)));
   console.log("write finished.");
 };

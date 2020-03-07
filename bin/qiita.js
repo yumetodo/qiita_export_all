@@ -47,7 +47,9 @@ class QiitaApi {
       if (requestRemain <= 0) {
         throw new Error("API request limit exceeded. Retry 1h later.");
       }
-      if (this.debugFlag_) console.log(`request limit remain: ${requestRemain}/${re.headers["rate-limit"]}`);
+      if (this.debugFlag_) {
+        process.stdout.write(`request limit remain: ${requestRemain}/${re.headers["rate-limit"]}\x1B[0G`);
+      }
       // append
       items.push(...Array.from(re.data));
       const link = parseRFC5988LinkHeader(re.headers.link);
