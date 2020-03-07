@@ -103,7 +103,7 @@ class ImageManager {
     /** @type {Set<string>} */
     const imageList = this.imageListMap[itemId][identifier] || new Set();
     for (const imageUrl of imageUrls) {
-      if (imageUrl == null || !isURI(imageUrl)) continue;
+      if (imageUrl == null || !isURI(imageUrl) || imageUrl.startsWith("data:")) continue;
       if (!isDryRun) this.NotifyCacheImage_(imageUrl, `${itemId}/${identifier}`);
       imageList.add(imageUrl);
     }
