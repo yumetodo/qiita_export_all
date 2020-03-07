@@ -67,8 +67,9 @@ if (token == null) {
 } else {
   program
     .version("1.4.0")
-    .option("-u, --user-id <id>", "user id")
-    .option("-o, --output <file>", "Write output to <file> instead of current directory.")
+    .name("qiita_export_all")
+    .option("-u, --user-id <id>", "Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).")
+    .option("-o, --output <path>", "Write output to <path> instead of current directory.")
     .parse(process.argv);
   main(program.userId, program.output).catch(er => {
     console.error(er.stack, er);

@@ -71,6 +71,18 @@ export QIITA_ACCESS_TOKEN=9226168a5ef65f8e81153b460e7c78f8b8e53394
 npx qiita_export_all
 ```
 
+### Command Line options
+
+```plain
+Usage: qiita_export_all [options]
+
+Options:
+  -V, --version        output the version number
+  -u, --user-id <id>   Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).
+  -o, --output <path>  Write output to <path> instead of current directory.
+  -h, --help           output usage information
+```
+
 ## Note
 
 - md ファイルは UTF-8 でエクスポートします
