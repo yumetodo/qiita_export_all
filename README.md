@@ -128,6 +128,7 @@ gitなりzipでDLしてあげればよいです。
 ```plain
 git clone https://github.com/yumetodo/qiita_export_all.git
 cd qiita_export_all
+npm ci
 ```
 
 ### Use
