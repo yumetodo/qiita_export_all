@@ -21,12 +21,13 @@ const relativePathFromCommentFileToRootDirectory = "../../../.../";
 /**
  * @param {string|undefined} userId
  * @param {string|undefined} output
+ * @param {boolean} debug
  */
-const main = async (userId, output) => {
+const main = async (userId, output, debug = true) => {
   const imagePath = output == null ? imagePathBase : path.join(output, imagePathBase);
   const itemPath = output == null ? itemPathBase : path.join(output, itemPathBase);
   console.log("info: Requesting items...");
-  const qiita = new QiitaApi(token, true);
+  const qiita = new QiitaApi(token, debug);
   const rawItems = await (userId == null ? qiita.GetAllAuthenticatedUserItems() : qiita.GetAllUserItems(userId));
   const items = rawItems.map(i => new Item(i));
   console.log(`\ninfo: ${items.length} items found.`);
@@ -46,7 +47,9 @@ const main = async (userId, output) => {
   await imageManager.WaitImageCachePromise().catch(er => {
     throw er;
   });
-  console.log("\ninfo: Request finidhed.");
+  console.log(
+    `\ninfo: request limit remain: ${qiita.requestRemain}/${qiita.requestLimit}` + "\ninfo: Request finidhed."
+  );
 
   console.log("\ninfo: Replacing Image path...");
   for (const i of items)
@@ -70,8 +73,9 @@ if (token == null) {
     .name("qiita_export_all")
     .option("-u, --user-id <id>", "Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).")
     .option("-o, --output <path>", "Write output to <path> instead of current directory.")
+    .option("--no-debug", "print api limit per request")
     .parse(process.argv);
-  main(program.userId, program.output).catch(er => {
+  main(program.userId, program.output, program.debug).catch(er => {
     console.error(er.stack, er);
   });
 }

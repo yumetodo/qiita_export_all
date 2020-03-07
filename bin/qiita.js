@@ -17,6 +17,10 @@ class QiitaApi {
     this.debugFlag_ = debugFlag;
     Object.freeze(this.token_);
     Object.freeze(this.debugFlag_);
+    /** @type {number|undefined} */
+    this.requestRemain = undefined;
+    /** @type {number|undefined} */
+    this.requestLimit = undefined;
   }
 
   /**
@@ -42,13 +46,13 @@ class QiitaApi {
         retry: true,
         responseType: "json",
       });
-      /** @type  {number} */
-      const requestRemain = re.headers["rate-remaining"];
-      if (requestRemain <= 0) {
+      this.requestRemain = re.headers["rate-remaining"];
+      this.requestLimit = re.headers["rate-limit"];
+      if (this.requestRemain <= 0) {
         throw new Error("API request limit exceeded. Retry 1h later.");
       }
       if (this.debugFlag_) {
-        process.stdout.write(`request limit remain: ${requestRemain}/${re.headers["rate-limit"]}\x1B[0G`);
+        process.stdout.write(`debug: request limit remain: ${this.requestRemain}/${this.requestLimit}\x1B[0G`);
       }
       // append
       items.push(...Array.from(re.data));
