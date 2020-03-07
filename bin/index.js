@@ -66,7 +66,7 @@ if (token == null) {
   console.error("Fail to find QIITA_ACCESS_TOKEN env");
 } else {
   program
-    .version("1.4.0")
+    .version("1.4.1")
     .name("qiita_export_all")
     .option("-u, --user-id <id>", "Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).")
     .option("-o, --output <path>", "Write output to <path> instead of current directory.")
