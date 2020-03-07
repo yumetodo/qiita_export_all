@@ -70,5 +70,6 @@ typings/
 !.vscode/extensions.json
 
 ### Other
+export/
 img/
 items/
