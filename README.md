@@ -27,7 +27,7 @@ Qiita v2 API を使って自身の投稿記事全てをエクスポートする�
 
 ### Node.js & npm
 
-[nvm](https://github.com/creationix/nvm) もしくは [nodist](https://github.com/marcelklehr/nodist)を使ってNode.jsとnpmをインストールすることを推奨します。
+[nvm](https://github.com/creationix/nvm) もしくは [nodist](https://github.com/marcelklehr/nodist) を使ってNode.jsとnpmをインストールすることを推奨します。
 
 #### nvm
 
@@ -71,7 +71,31 @@ export QIITA_ACCESS_TOKEN=9226168a5ef65f8e81153b460e7c78f8b8e53394
 npx qiita_export_all
 ```
 
-### Command Line options
+## Docker
+
+Node.js環境がない場合でもDockerが利用可能な場合は、DockerでQiita記事のバックアップができます。
+
+```shellsession
+$ # リポジトリのクローンと移動
+$ git clone https://github.com/yumetodo/qiita_export_all.git
+$ cd qiita_export_all
+$ # コンテナの作成
+$ docker build -t qiita_export_all:local .
+$ # コンテナの起動とアプリの実行。./export に出力されます（token は要置き換え）
+$ docker run \
+    --rm \
+    --env QIITA_ACCESS_TOKEN=9226168a5ef65f8e81153b460e7c78f8b8e53394 \
+    -v $(pwd)/export:/home/node/export \
+    qiita_export_all:local
+...
+$ # 出力されたファイルの確認
+$ tree ./export
+...
+```
+
+- 確認済み Docker version v19.03.5 (Intel, x86_64, AMD64)
+
+## Command Line options
 
 ```plain
 Usage: qiita_export_all [options]
