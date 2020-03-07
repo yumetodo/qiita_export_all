@@ -2,8 +2,9 @@
 
 "use strict";
 
-const mkdirp = require("mkdirp-promise");
-
+const path = require("path");
+const mkdirp = require("mkdirp");
+const program = require("commander");
 const QiitaApi = require("./qiita");
 const Item = require("./item.js");
 // eslint-disable-next-line no-unused-vars
@@ -11,29 +12,29 @@ const Comment = require("./comment.js");
 const ImageManager = require("./image-manager.js");
 
 const token = process.env.QIITA_ACCESS_TOKEN;
-const imageDirectoryPath = "img";
-const rootItemPath = "items";
+const imagePathBase = "img";
+const itemPathBase = "items";
 const relativeCommentPath = "comments";
 const relativePathFromItemFileToRootDirectory = "../../";
 const relativePathFromCommentFileToRootDirectory = "../../../.../";
 
-const main = async () => {
+/**
+ * @param {string|undefined} userId
+ * @param {string|undefined} output
+ */
+const main = async (userId, output) => {
+  const imagePath = output == null ? imagePathBase : path.join(output, imagePathBase);
+  const itemPath = output == null ? itemPathBase : path.join(output, itemPathBase);
   console.log("info: Requesting items...");
   const qiita = new QiitaApi(token, true);
-  const items = await qiita
-    .GetAllAuthenticatedUserItems()
-    .then(rawItems => rawItems.map(i => new Item(i)))
-    .catch(er => {
-      throw er;
-    });
+  const rawItems = await (userId == null ? qiita.GetAllAuthenticatedUserItems() : qiita.GetAllUserItems(userId));
+  const items = rawItems.map(i => new Item(i));
   console.log(`info: ${items.length} items found.`);
 
   console.log("info: creating image save directory...");
-  await mkdirp(imageDirectoryPath).catch(er => {
-    throw er;
-  });
+  await mkdirp(imagePath);
   console.log("info: created.");
-  const imageManager = new ImageManager(imageDirectoryPath);
+  const imageManager = new ImageManager(imagePath);
   console.log("info: Requesting comments/images...");
   for (const i of items) {
     // eslint-disable-next-line no-await-in-loop
@@ -57,14 +58,20 @@ const main = async () => {
   console.log("info: Replace finished.");
 
   console.log("info: Writing items/comments...");
-  await Promise.all(items.map(i => i.WriteFiles(rootItemPath, relativeCommentPath)));
+  await Promise.all(items.map(i => i.WriteFiles(itemPath, relativeCommentPath)));
   console.log("write finished.");
 };
 
 if (token == null) {
   console.error("Fail to find QIITA_ACCESS_TOKEN env");
 } else {
-  main().catch(er => {
+  program
+    .version("1.4.1")
+    .name("qiita_export_all")
+    .option("-u, --user-id <id>", "Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).")
+    .option("-o, --output <path>", "Write output to <path> instead of current directory.")
+    .parse(process.argv);
+  main(program.userId, program.output).catch(er => {
     console.error(er.stack, er);
   });
 }

@@ -2,6 +2,8 @@
 
 ![Node CI](https://github.com/yumetodo/qiita_export_all/workflows/Node%20CI/badge.svg) [![CircleCI](https://circleci.com/gh/yumetodo/qiita_export_all.svg?style=svg)](https://circleci.com/gh/yumetodo/qiita_export_all) [![Greenkeeper badge](https://badges.greenkeeper.io/yumetodo/qiita_export_all.svg)](https://greenkeeper.io/)
 
+[![NPM](https://nodei.co/npm/qiita_export_all.png)](https://nodei.co/npm/qiita_export_all/)
+
 Qiita v2 API を使って自身の投稿記事全てをエクスポートするツール。
 
 ## Motivation
@@ -93,6 +95,18 @@ $ tree ./export
 
 - 確認済み Docker version v19.03.5 (Intel, x86_64, AMD64)
 
+## Command Line options
+
+```plain
+Usage: qiita_export_all [options]
+
+Options:
+  -V, --version        output the version number
+  -u, --user-id <id>   Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).
+  -o, --output <path>  Write output to <path> instead of current directory.
+  -h, --help           output usage information
+```
+
 ## Note
 
 - md ファイルは UTF-8 でエクスポートします
@@ -151,6 +165,7 @@ gitなりzipでDLしてあげればよいです。
 ```plain
 git clone https://github.com/yumetodo/qiita_export_all.git
 cd qiita_export_all
+npm ci
 ```
 
 ### Use
