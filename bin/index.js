@@ -66,7 +66,7 @@ if (token == null) {
   console.error("Fail to find QIITA_ACCESS_TOKEN env");
 } else {
   program
-    .version("1.3.1")
+    .version("1.4.0")
     .option("-u, --user-id <id>", "user id")
     .option("-o, --output <file>", "Write output to <file> instead of current directory.")
     .parse(process.argv);
