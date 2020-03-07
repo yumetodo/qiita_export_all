@@ -4,7 +4,7 @@ ARG QIITA_ACCESS_TOKEN
 ENV QIITA_ACCESS_TOKEN=$QIITA_ACCESS_TOKEN
 COPY . /home/node/
 
-USER node
+USER root
 WORKDIR /home/node
 RUN \
     npm install && \
