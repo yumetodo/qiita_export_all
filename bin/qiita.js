@@ -47,7 +47,6 @@ class QiitaApi {
       const re = await request({
         url: url,
         headers: {
-          "content-type": "application/json",
           charset: "utf-8",
           Authorization: `Bearer ${this.token_}`,
           "User-Agent": "node-fetch/1.0 qiita_export_all/1 (+https://github.com/yumetodo/qiita_export_all)",
