@@ -7,7 +7,7 @@ COPY . /home/node/
 USER root
 WORKDIR /home/node
 RUN \
-    npm install && \
+    npm ci && \
     mkdir /home/node/export
 
 WORKDIR /home/node/export
