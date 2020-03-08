@@ -65,6 +65,9 @@ class ImageManager {
       try {
         const re = await request({
           url: url,
+          headers: {
+            "User-Agent": "node-fetch/1.0 qiita_export_all/1 (+https://github.com/yumetodo/qiita_export_all)",
+          },
           retryConfig: {
             retry: 4,
             retryDelay: 1000,
