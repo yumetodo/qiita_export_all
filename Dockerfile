@@ -11,4 +11,5 @@ RUN \
     mkdir /home/node/export
 
 WORKDIR /home/node/export
-ENTRYPOINT npx qiita_export_all
+ENTRYPOINT [ "/usr/local/bin/npx", "qiita_export_all" ]
+CMD [ "" ]
