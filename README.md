@@ -104,6 +104,7 @@ Options:
   -V, --version        output the version number
   -u, --user-id <id>   Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).
   -o, --output <path>  Write output to <path> instead of current directory.
+  --no-debug           disable print api limit per request
   -h, --help           output usage information
 ```
 
