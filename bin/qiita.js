@@ -1,6 +1,7 @@
 "use strict";
 
 const request = require("gaxios").request;
+const GaxiosError = require("gaxios/build/src/common").GaxiosError;
 const URLSearchParams = require("url").URLSearchParams;
 const parseRFC5988LinkHeader = require("parse-link-header");
 
@@ -43,42 +44,54 @@ class QiitaApi {
     let waitRequestLimitResetCount = 0;
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      // eslint-disable-next-line no-await-in-loop
-      const re = await request({
-        url: url,
-        headers: {
-          charset: "utf-8",
-          Authorization: `Bearer ${this.token_}`,
-          "User-Agent": "node-fetch/1.0 qiita_export_all/1 (+https://github.com/yumetodo/qiita_export_all)",
-        },
-        retryConfig: {
-          retry: 4,
-          retryDelay: 1000,
-        },
-        retry: true,
-        responseType: "json",
-      });
-      this.requestRemain = re.headers["rate-remaining"];
-      this.requestLimit = re.headers["rate-limit"];
-      if (this.requestRemain <= 0) {
-        if (waitRequestLimitResetCount > 2) {
-          throw new Error("API request limit exceeded. Retry 1h later.");
-        }
-        ++waitRequestLimitResetCount;
-        const requestResetTime = re.headers["rate-reset"] * 1000;
-        const requestResetTimeUTC = new Date(requestResetTime);
-        console.log(`\ninfo: waiting API limit reset. Will be retried at ${formatDate(requestResetTimeUTC)} (UTC)`);
+      let linkRaw = "";
+      let data;
+      try {
         // eslint-disable-next-line no-await-in-loop
-        await waitFor(Date.UTC() - requestResetTime + 2000);
-        continue;
+        const re = await request({
+          url: url,
+          headers: {
+            charset: "utf-8",
+            Authorization: `Bearer ${this.token_}`,
+            "User-Agent": "node-fetch/1.0 qiita_export_all/1 (+https://github.com/yumetodo/qiita_export_all)",
+          },
+          retryConfig: {
+            retry: 4,
+            retryDelay: 1000,
+          },
+          retry: true,
+          responseType: "json",
+        });
+        this.requestRemain = re.headers["rate-remaining"];
+        this.requestLimit = re.headers["rate-limit"];
+        linkRaw = re.headers.link;
+        data = re.data;
+      } catch (e) {
+        if (!(e instanceof GaxiosError && e.response != null)) {
+          throw e;
+        }
+        const requestRemain = e.response.headers["rate-remaining"];
+        if (requestRemain <= 0) {
+          if (waitRequestLimitResetCount > 2) {
+            throw new Error("API request limit exceeded. Retry 1h later.");
+          }
+          ++waitRequestLimitResetCount;
+          const requestResetTime = e.response.headers["rate-reset"] * 1000;
+          const requestResetTimeUTC = new Date(requestResetTime);
+          console.log(`\ninfo: waiting API limit reset. Will be retried at ${formatDate(requestResetTimeUTC)} (UTC)`);
+          this.requestLimit = e.response.headers["rate-limit"];
+          // eslint-disable-next-line no-await-in-loop
+          await waitFor(requestResetTime + 2000 - Date.now());
+          continue;
+        }
       }
       waitRequestLimitResetCount = 0;
       if (this.debugFlag_) {
         process.stdout.write(`debug: request limit remain: ${this.requestRemain}/${this.requestLimit}\x1B[0G`);
       }
       // append
-      items.push(...Array.from(re.data));
-      const link = parseRFC5988LinkHeader(re.headers.link);
+      items.push(...Array.from(data));
+      const link = parseRFC5988LinkHeader(linkRaw);
       // when cannot find next page
       if (link.next == null || link.next.url == null) break;
       // set next url
