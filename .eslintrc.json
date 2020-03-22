@@ -48,7 +48,8 @@
                 "singleQuote": false,
                 "trailingComma": "es5",
                 "printWidth": 120,
-                "useTabs": false
+                "useTabs": false,
+                "arrowParens": "avoid"
             }
         ],
         "no-console": "off",
