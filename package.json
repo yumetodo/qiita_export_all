@@ -38,7 +38,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "commander": "^5.0.0",
+    "commander": "^5.1.0",
     "fs-extra": "^9.0.0",
     "gaxios": "^3.0.0",
     "mime": "^2.4.4",
