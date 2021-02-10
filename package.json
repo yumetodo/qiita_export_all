@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "commander": "^5.1.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^9.1.0",
     "gaxios": "^3.2.0",
     "mime": "^2.4.7",
     "mkdirp": "^1.0.4",
