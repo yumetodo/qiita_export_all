@@ -20,12 +20,6 @@
     "no-alert": "error",
     "no-invalid-this": "error",
     "no-console": "off",
-    "node/shebang": "error",
-    "node/no-unsupported-features": [
-      "error",
-      {
-        "version": 12
-      }
-    ]
+    "node/shebang": "error"
   }
 }
