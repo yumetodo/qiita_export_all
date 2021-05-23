@@ -1,30 +1,24 @@
 {
-    // IntelliSense を使用して利用可能な属性を学べます。
-    // 既存の属性の説明をホバーして表示します。
-    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/index.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Debug AVA test file",
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
-            "runtimeArgs": [
-              "debug",
-              "--break",
-              "${file}"
-            ],
-            "port": 9229,
-            "outputCapture": "std",
-            "skipFiles": [
-              "<node_internals>/**/*.js"
-            ]
-          }
-    ]
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/bin/index.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug AVA test file",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
+      "runtimeArgs": ["debug", "--break", "${file}"],
+      "port": 9229,
+      "outputCapture": "std",
+      "skipFiles": ["<node_internals>/**/*.js"]
+    }
+  ]
 }

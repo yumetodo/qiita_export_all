@@ -11,24 +11,24 @@ Qiita v2 API を使って自身の投稿記事全てをエクスポートする�
 
 [stakiran/qiita_exporter](https://github.com/stakiran/qiita_exporter)が類似ツールとしてすでにある。しかし
 
-- Python 2である
+- Python 2 である
 - 画像のダウンロードをやってくれない
-- 投稿数が100を超えて取得できない
-- HTMLデータやコメントなどのMarkdown以外のデータを保存してくれない
-- Pythonわからない
+- 投稿数が 100 を超えて取得できない
+- HTML データやコメントなどの Markdown 以外のデータを保存してくれない
+- Python わからない
 
-という不満があった。自分がよくわかってるのはC++かJavaScriptだ。しかしC++でHTTPS通信とか地獄すぎる。JavaScriptしかないやろ。しかも`async`/`await`がある。これはいい。
+という不満があった。自分がよくわかってるのは C++か JavaScript だ。しかし C++で HTTPS 通信とか地獄すぎる。JavaScript しかないやろ。しかも`async`/`await`がある。これはいい。
 
 ## Requirement
 
-- Node.js 12.x以降
+- Node.js 12.x 以降
 - npm
 
 ## Installation
 
 ### Node.js & npm
 
-[nvm](https://github.com/creationix/nvm) もしくは [nodist](https://github.com/marcelklehr/nodist) を使ってNode.jsとnpmをインストールすることを推奨します。
+[nvm](https://github.com/creationix/nvm) もしくは [nodist](https://github.com/marcelklehr/nodist) を使って Node.js と npm をインストールすることを推奨します。
 
 #### nvm
 
@@ -47,12 +47,12 @@ nodist npm match
 
 ### Qiita API Access Token
 
-Qiita API Access Tokenを手に入れます。
+Qiita API Access Token を手に入れます。
 
-1. Qiitaにログインする
+1. Qiita にログインする
 2. [設定画面](https://qiita.com/settings/applications)から個人用アクセストークンを発行する
 
-説明のため、得たtokenが`9226168a5ef65f8e81153b460e7c78f8b8e53394`とします。各自読み替えてください。
+説明のため、得た token が`9226168a5ef65f8e81153b460e7c78f8b8e53394`とします。各自読み替えてください。
 
 #### cmd.exe
 
@@ -74,7 +74,7 @@ npx qiita_export_all
 
 ## Docker
 
-Node.js環境がない場合でもDockerが利用可能な場合は、DockerでQiita記事のバックアップができます。
+Node.js 環境がない場合でも Docker が利用可能な場合は、Docker で Qiita 記事のバックアップができます。
 
 ```shellsession
 $ # リポジトリのクローンと移動
@@ -112,14 +112,14 @@ Options:
 ## Note
 
 - md ファイルは UTF-8 でエクスポートします
-- 投稿数が100を超えていても**取得できます**
-- Windowsでは`MAX_PATH`を超えるとエラーになる気がします
-- カレントディレクトリにRead/Writeの権限がないとエラーになります
-- directory名の一部にQiita記事のタイトルを使用しますが、パスとして無効な文字は削除されます。これは[sanitize-filename](https://www.npmjs.com/package/sanitize-filename)に丸投げしています。
+- 投稿数が 100 を超えていても**取得できます**
+- Windows では`MAX_PATH`を超えるとエラーになる気がします
+- カレントディレクトリに Read/Write の権限がないとエラーになります
+- directory 名の一部に Qiita 記事のタイトルを使用しますが、パスとして無効な文字は削除されます。これは[sanitize-filename](https://www.npmjs.com/package/sanitize-filename)に丸投げしています。
 
 ## Output
 
-カレントディレクトリに出力します。生成されるdirectory treeは
+カレントディレクトリに出力します。生成される directory tree は
 
 ```plain
 .
@@ -162,7 +162,7 @@ Options:
 
 ### Download
 
-gitなりzipでDLしてあげればよいです。
+git なり zip で DL してあげればよいです。
 
 ```plain
 git clone https://github.com/yumetodo/qiita_export_all.git
@@ -264,7 +264,6 @@ write finished.
 ## License
 
 Watch [LICENSE](./LICENSE).
-
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fyumetodo%2Fqiita_export_all.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fyumetodo%2Fqiita_export_all?ref=badge_large)
 
