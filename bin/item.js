@@ -6,7 +6,7 @@ const Comment = require("./comment.js");
 const QiitaApi = require("./qiita");
 // eslint-disable-next-line no-unused-vars
 const ImageManager = require("./image-manager.js");
-const fse = require("fs-extra");
+const fs = require("fs").promises;
 const path = require("path");
 const sanitize = require("sanitize-filename");
 const mkdirp = require("mkdirp");
@@ -73,9 +73,9 @@ class Item extends ItemBase {
       tags: this.tags,
     });
     const promise = [
-      fse.writeFile(path.join(itemPath, "index.html"), this.html),
-      fse.writeFile(path.join(itemPath, "README.md"), this.markdown),
-      fse.writeFile(path.join(itemPath, "info.json"), JSON.stringify(info)),
+      fs.writeFile(path.join(itemPath, "index.html"), this.html),
+      fs.writeFile(path.join(itemPath, "README.md"), this.markdown),
+      fs.writeFile(path.join(itemPath, "info.json"), JSON.stringify(info)),
     ];
     for (const comment of this.comments) promise.push(comment.WriteFiles(path.join(itemPath, relativeCommentPath)));
     await Promise.all(promise);

@@ -21,7 +21,7 @@ Qiita v2 API を使って自身の投稿記事全てをエクスポートする�
 
 ## Requirement
 
-- Node.js 10.x以降
+- Node.js 12.x以降
 - npm
 
 ## Installation

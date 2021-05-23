@@ -1,64 +1,31 @@
 {
-    "extends": [
-        "standard",
-        "plugin:prettier/recommended"
-    ],
-    "plugins": [
-        "node"
-    ],
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "env": {
-        "node": true,
-        "es6": true
-    },
-    "globals": {
-        "fetch": false
-    },
-    "rules": {
-        "semi": [
-            "error",
-            "always"
-        ],
-        "no-tabs": "off",
-        "quotes": [
-            "error",
-            "double",
-            {
-                "avoidEscape": true
-            }
-        ],
-        "no-await-in-loop": "error",
-        "require-atomic-updates": "error",
-        "array-callback-return": "error",
-        "default-case": "error",
-        "no-alert": "error",
-        "max-len": [
-            "error",
-            {
-                "code": 120
-            }
-        ],
-        "no-invalid-this": "error",
-        "prettier/prettier": [
-            "error",
-            {
-                "singleQuote": false,
-                "trailingComma": "es5",
-                "printWidth": 120,
-                "useTabs": false,
-                "arrowParens": "avoid"
-            }
-        ],
-        "no-console": "off",
-        "node/shebang": "error",
-        "node/no-unsupported-features": [
-            "error",
-            {
-                "version": 8
-            }
-        ]
-    }
+  "extends": ["standard", "prettier"],
+  "plugins": ["node"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "fetch": false
+  },
+  "rules": {
+    "no-await-in-loop": "error",
+    "require-atomic-updates": "error",
+    "array-callback-return": "error",
+    "default-case": "error",
+    "no-alert": "error",
+    "no-invalid-this": "error",
+    "no-console": "off",
+    "node/shebang": "error",
+    "node/no-unsupported-features": [
+      "error",
+      {
+        "version": 12
+      }
+    ]
+  }
 }

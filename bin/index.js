@@ -75,7 +75,8 @@ if (token == null) {
     .option("-o, --output <path>", "Write output to <path> instead of current directory.")
     .option("--no-debug", "disable print api limit per request")
     .parse(process.argv);
-  main(program.userId, program.output, program.debug).catch(er => {
+  const opts = program.opts();
+  main(opts.userId, opts.output, opts.debug).catch(er => {
     console.error(er.stack, er);
   });
 }

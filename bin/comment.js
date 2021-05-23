@@ -3,7 +3,7 @@
 const ItemBase = require("./item-base.js");
 // eslint-disable-next-line no-unused-vars
 const ImageManager = require("./image-manager.js");
-const fse = require("fs-extra");
+const fs = require("fs").promises;
 const path = require("path");
 const sanitize = require("sanitize-filename");
 const mkdirp = require("mkdirp");
@@ -50,9 +50,9 @@ class Comment extends ItemBase {
       user: this.user,
     });
     await Promise.all([
-      fse.writeFile(path.join(commentPath, "index.html"), this.html),
-      fse.writeFile(path.join(commentPath, "README.md"), this.markdown),
-      fse.writeFile(path.join(commentPath, "info.json"), JSON.stringify(info)),
+      fs.writeFile(path.join(commentPath, "index.html"), this.html),
+      fs.writeFile(path.join(commentPath, "README.md"), this.markdown),
+      fs.writeFile(path.join(commentPath, "info.json"), JSON.stringify(info)),
     ]);
   }
 }

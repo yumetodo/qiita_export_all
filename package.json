@@ -3,7 +3,7 @@
   "version": "1.5.2",
   "description": "export all of your article at qiita",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=12.0.0"
   },
   "bin": {
     "qiita_export_all": "bin/index.js"
@@ -12,7 +12,8 @@
     "test": "ava --verbose",
     "start": "node bin/index.js",
     "eslint": "eslint --cache --ext .js .",
-    "eslint:fix": "eslint --cache --ext .js . --fix"
+    "eslint:fix": "eslint --cache --ext .js . --fix",
+    "prettier": "prettier --write ."
   },
   "keywords": [
     "qiita"
@@ -24,24 +25,21 @@
     "url": "https://github.com/yumetodo/qiita_export_all.git"
   },
   "devDependencies": {
-    "ava": "^3.12.1",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
+    "ava": "^3.15.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-promise": "^5.1.0",
     "esm": "^3.2.25",
-    "nock": "^12.0.3",
-    "prettier": "^2.1.1"
+    "nock": "^13.0.11",
+    "prettier": "^2.3.0"
   },
   "dependencies": {
-    "commander": "^5.1.0",
-    "fs-extra": "^9.0.1",
-    "gaxios": "^3.2.0",
-    "mime": "^2.4.7",
+    "commander": "^7.2.0",
+    "gaxios": "^4.2.1",
+    "mime": "^2.5.2",
     "mkdirp": "^1.0.4",
     "parse-link-header": "^1.0.1",
     "sanitize-filename": "^1.6.3",
