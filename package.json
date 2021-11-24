@@ -39,7 +39,7 @@
   "dependencies": {
     "commander": "^7.2.0",
     "gaxios": "^4.3.2",
-    "mime": "^2.5.2",
+    "mime": "^2.6.0",
     "mkdirp": "^1.0.4",
     "parse-link-header": "^1.0.1",
     "sanitize-filename": "^1.6.3",
