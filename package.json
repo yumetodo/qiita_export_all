@@ -26,20 +26,20 @@
   },
   "devDependencies": {
     "ava": "^3.15.0",
-    "eslint": "^7.27.0",
+    "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.23.3",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^6.0.0",
     "esm": "^3.2.25",
-    "nock": "^13.0.11",
-    "prettier": "^2.3.0"
+    "nock": "^13.2.1",
+    "prettier": "^2.5.1"
   },
   "dependencies": {
-    "commander": "^7.2.0",
+    "commander": "^8.3.0",
     "gaxios": "^4.3.2",
-    "mime": "^2.6.0",
+    "mime": "^3.0.0",
     "mkdirp": "^1.0.4",
     "parse-link-header": "^2.0.0",
     "sanitize-filename": "^1.6.3",
