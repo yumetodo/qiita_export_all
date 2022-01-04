@@ -25,14 +25,13 @@
     "url": "https://github.com/yumetodo/qiita_export_all.git"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
-    "eslint": "^8.5.0",
+    "ava": "^4.0.0",
+    "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
-    "esm": "^3.2.25",
     "nock": "^13.2.1",
     "prettier": "^2.5.1"
   },
@@ -45,10 +44,5 @@
     "sanitize-filename": "^1.6.3",
     "unescape": "^1.0.1",
     "validate.io-uri": "^1.0.0"
-  },
-  "ava": {
-    "require": [
-      "esm"
-    ]
   }
 }

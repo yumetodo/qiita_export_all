@@ -1,5 +1,4 @@
-// eslint-disable-next-line node/no-unsupported-features
-import test from "ava";
+const test = require("ava");
 const nock = require("nock");
 const path = require("path");
 const QiitaApi = require("../bin/qiita");
