@@ -10,6 +10,7 @@ const Item = require("./item.js");
 // eslint-disable-next-line no-unused-vars
 const Comment = require("./comment.js");
 const ImageManager = require("./image-manager.js");
+const p = require('../package.json');
 
 const token = process.env.QIITA_ACCESS_TOKEN;
 const imagePathBase = "img";
@@ -69,7 +70,7 @@ if (token == null) {
   console.error("Fail to find QIITA_ACCESS_TOKEN env");
 } else {
   program
-    .version("1.5.0")
+    .version(p.version)
     .name("qiita_export_all")
     .option("-u, --user-id <id>", "Qiita user id you want to download(default: the user who get QIITA_ACCESS_TOKEN).")
     .option("-o, --output <path>", "Write output to <path> instead of current directory.")
