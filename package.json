@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "commander": "^8.3.0",
-    "gaxios": "^4.3.2",
+    "gaxios": "^4.3.3",
     "mime": "^3.0.0",
     "mkdirp": "^1.0.4",
     "parse-link-header": "^2.0.0",
